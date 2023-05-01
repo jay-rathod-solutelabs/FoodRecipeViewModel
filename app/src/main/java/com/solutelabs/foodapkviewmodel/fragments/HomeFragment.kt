@@ -43,7 +43,7 @@ class HomeFragment : BaseFragment() {
         // Initialize viewmodel
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
 
-        // Observe for changes in recipe list and update adapter accordingly
+        // Observe changes in recipe list and update adapter accordingly
         viewModel.recipeListLiveData.observe(viewLifecycleOwner, Observer { recipes ->
             if (recipes != null && recipes.isNotEmpty()) {
                 recipeAdapter.updateList(recipes) // update the existing adapter instance with new data
