@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/HomeFragment">
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.solutelabs.foodapkviewmodel.fragments.HomeFragment"
+        android:label="HomeFragment" />
+
+</navigation>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<navigation xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    android:id="@+id/nav_graph"-->
+    <!--    app:startDestination="@id/HomeFragment">-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/HomeFragment"-->
+    <!--        android:name="com.solutelabs.foodrecipeapp.fragments.HomeFragment"-->
+    <!--        android:label="HomeFragment" />-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/DetailFragment"-->
+    <!--        android:name="com.solutelabs.foodrecipeapp.fragments.DetailFragment"-->
+    <!--        android:label="DetailFragment" />-->
+    <!--</navigation>-->

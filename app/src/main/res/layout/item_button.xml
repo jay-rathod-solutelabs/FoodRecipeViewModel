@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_5">
+
+    <androidx.appcompat.widget.AppCompatButton xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/button_keyword"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_45"
+        android:layout_margin="@dimen/dp_5"
+        android:background="@drawable/button_selector"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_13"
+
+        />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <!--<style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">-->
+    <!--<item name="android:layout_width">wrap_content</item>-->
+    <!--<item name="android:layout_height">@dimen/dp_45</item>-->
+    <!--<item name="android:textSize">@dimen/sp_13</item>-->
+    <!--<item name="android:textAllCaps">false</item>-->
+    <!--<item name="android:onClick">onButtonClicked</item>-->
+    <!--<item name="android:layout_margin">@dimen/dp_5</item>-->
+    <!--<item name="android:background">@drawable/button_selector</item>-->
+    <!--</style>-->
