@@ -1,8 +1,12 @@
 package com.solutelabs.foodapkviewmodel.viewmodel
 
+import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.solutelabs.foodapkviewmodel.Constants
+import com.solutelabs.foodapkviewmodel.R
 import com.solutelabs.foodapkviewmodel.RecipeService
 import com.solutelabs.foodrecipeapp.model.Recipe
 import com.solutelabs.foodrecipeapp.model.RecipeSearchResponse
@@ -10,7 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragmentViewModel : ViewModel() {
+class HomeFragmentViewModel(private val context: Context) : ViewModel() {
 
     // Initialize properties with default values
     private var pageNum = 1
@@ -18,11 +22,10 @@ class HomeFragmentViewModel : ViewModel() {
     private var recipeList = mutableListOf<Recipe>()
     private var totalResults = 0
 
-    // Create a MutableLiveData to observe changes in the recipe list
     val recipeListLiveData = MutableLiveData<List<Recipe>?>()
 
     // Fetch recipes from the API using the RecipeService
-    fun getRecipes(pageNum: Int, searchQuery: String) {
+    fun getRecipes() {
         val recipes = RecipeService.RecipeInstance.getAllRecipes(pageNum, searchQuery)
         recipes.enqueue(object : Callback<RecipeSearchResponse> {
             override fun onResponse(
@@ -48,6 +51,11 @@ class HomeFragmentViewModel : ViewModel() {
             override fun onFailure(call: Call<RecipeSearchResponse>, t: Throwable) {
                 // If there is an error, set recipeListLiveData to null
                 recipeListLiveData.value = null
+                Snackbar.make(
+                    (context as Activity).findViewById(android.R.id.content),
+                    context.getString(R.string.failed_to_fetch_recipes_please_try_again_later),
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -58,7 +66,7 @@ class HomeFragmentViewModel : ViewModel() {
         pageNum = 1
         recipeList.clear()
         // Fetch new recipes based on the search query
-        getRecipes(pageNum, searchquery)
+        getRecipes()
     }
 
     // Load more recipes when the user reaches the end of the current list
@@ -66,7 +74,7 @@ class HomeFragmentViewModel : ViewModel() {
         if (recipeList.size < totalResults) {
             // Increment page number and fetch new recipes
             pageNum++
-            getRecipes(pageNum, searchQuery)
+            getRecipes()
         }
     }
 
@@ -78,7 +86,8 @@ class HomeFragmentViewModel : ViewModel() {
 
     // Fetch all recipes again
     fun reloadAllRecipes() {
-        getRecipes(pageNum, searchQuery)
+        getRecipes()
     }
+
 
 }

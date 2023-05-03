@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dp_8"
+    android:layout_margin="@dimen/dp_20"
     android:background="@drawable/border"
     android:orientation="vertical"
-    android:padding="@dimen/dp_12">
+    android:padding="@dimen/dp_20">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageview_recipe_image"

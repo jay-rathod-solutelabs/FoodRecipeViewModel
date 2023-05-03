@@ -26,4 +26,10 @@
     <string name="no_saved_recipes">No saved recipes</string>
     <string name="search_here">Search Here</string>
     <string name="loading_more_recipes">Loading More Recipes</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="not_connected">Not Connected</string>
+    <string name="connected">Connected</string>
+    <string name="internet_connected">Internet Connected</string>
+    <string name="unknown_viewmodel_class">Unknown ViewModel class</string>
+    <string name="failed_to_fetch_recipes_please_try_again_later">Failed to fetch recipes. Please try again later</string>
 </resources>

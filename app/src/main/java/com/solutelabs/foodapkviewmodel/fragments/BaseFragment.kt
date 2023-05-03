@@ -1,12 +1,11 @@
 package com.solutelabs.foodapkviewmodel.fragments
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
-import com.solutelabs.foodapkviewmodel.R
 
 abstract class BaseFragment : Fragment() {
 
@@ -17,6 +16,9 @@ abstract class BaseFragment : Fragment() {
         rootView = view
     }
 
+    fun Context.showSnackbar(view: View, message: String, duration: Int = Snackbar.LENGTH_SHORT) {
+        Snackbar.make(view, message, duration).show()
+    }
 
     fun Fragment.showSnackBar(message: String) {
         val snackbar = Snackbar.make(requireView(), message, Snackbar.LENGTH_LONG)

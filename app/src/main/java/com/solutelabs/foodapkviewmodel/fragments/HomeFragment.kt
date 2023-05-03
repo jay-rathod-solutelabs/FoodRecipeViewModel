@@ -2,18 +2,23 @@ package com.solutelabs.foodapkviewmodel.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.solutelabs.foodapkviewmodel.Constants
+import com.solutelabs.foodapkviewmodel.R
 import com.solutelabs.foodapkviewmodel.adapter.RecipeAdapter
 import com.solutelabs.foodapkviewmodel.databinding.FragmentHomeBinding
+import com.solutelabs.foodapkviewmodel.utils.NetworkConnection
 import com.solutelabs.foodapkviewmodel.viewmodel.HomeFragmentViewModel
+import com.solutelabs.foodapkviewmodel.viewmodel.HomeFragmentViewModelFactory
 
 class HomeFragment : BaseFragment() {
 
@@ -22,10 +27,10 @@ class HomeFragment : BaseFragment() {
     private lateinit var viewModel: HomeFragmentViewModel
     private lateinit var recipeAdapter: RecipeAdapter
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout and return root view
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,30 +38,45 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set up RecyclerView with RecipeAdapter
+
         recipeAdapter = RecipeAdapter(emptyList())
         binding.recycleViewRecipeList.apply {
             adapter = recipeAdapter
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-        // Initialize viewmodel
-        viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
+        val viewModelFactory = HomeFragmentViewModelFactory(requireContext())
+        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeFragmentViewModel::class.java)
 
         // Observe changes in recipe list and update adapter accordingly
         viewModel.recipeListLiveData.observe(viewLifecycleOwner, Observer { recipes ->
             if (recipes != null && recipes.isNotEmpty()) {
-                recipeAdapter.updateList(recipes) // update the existing adapter instance with new data
-                binding.noDataImage.visibility = View.GONE // hide the image
+                recipeAdapter.updateList(recipes)
+                binding.noDataImage.visibility = View.GONE
             } else {
-                recipeAdapter.updateList(emptyList()) // clear the adapter when no data is found
-                binding.noDataImage.visibility = View.VISIBLE // show the image
+                recipeAdapter.updateList(emptyList())
+                binding.noDataImage.visibility = View.VISIBLE
             }
-            binding.progressBar.visibility = View.GONE // hide the progress bar
+            binding.progressBar.visibility = View.GONE
         })
 
-        binding.progressBar.visibility = View.VISIBLE // show the progress bar
-        viewModel.getRecipes(1, Constants.constDefaultQuery)
+        val networkConnection = NetworkConnection(requireContext())
+        networkConnection.observe(viewLifecycleOwner){isConnected->
+            if(isConnected){
+                Toast.makeText(requireContext(),getString(R.string.connected),Toast.LENGTH_SHORT).show()
+                viewModel.getRecipes()
+                binding.searchView.isEnabled = true
+                binding.searchView.inputType= InputType.TYPE_CLASS_TEXT
+
+            }else{
+                binding.searchView.isEnabled = false
+                Toast.makeText(requireContext(),getString(R.string.not_connected),Toast.LENGTH_LONG).show()
+            }
+
+        }
+
+        binding.progressBar.visibility = View.VISIBLE
+        viewModel.getRecipes()
 
         binding.searchView.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -64,7 +84,6 @@ class HomeFragment : BaseFragment() {
                 if (!query.isNullOrEmpty()) {
                     viewModel.searchRecipes(query)
                     binding.progressBar.visibility = View.VISIBLE
-
 
                     // hide keyboard
                     val inputMethodManager =
@@ -90,7 +109,9 @@ class HomeFragment : BaseFragment() {
             }
         })
 
+
     }
+
 
     override fun onResume() {
         super.onResume()
